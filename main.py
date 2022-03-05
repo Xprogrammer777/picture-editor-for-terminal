@@ -197,5 +197,4 @@ while True:
             os.system("clear")
             print(banner)
 
-
         #REPORT ANY ISSUE ON GITHUB
