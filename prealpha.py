@@ -66,8 +66,11 @@ while True:
 
     elif "text" in cmd:
         text()
+    elif cmd == "ls":
+     os.system("ls")
     elif cmd == "" or cmd == " " :
         print("please, type something.")
+      
     else:
         print("wrong input")
         time.sleep(1)
