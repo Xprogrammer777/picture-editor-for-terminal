@@ -12,7 +12,7 @@ Edit your picture in your linux terminal with this AMAZING tool. IMPORTANT NOTE 
 Description
 -----------
 This is a tools with a lot of feactures to edit your picture only in your linux terminal written in python working with opencl.<br>
-<a href=https://github.com/Xprogrammer777/picture-editor-for-terminal/archive/refs/heads/main.zip"><p align="center">DOWNLOAD</p></a> <br> <br>
+<a href="https://github.com/Xprogrammer777/picture-editor-for-terminal/archive/refs/heads/main.zip"><p align="center">DOWNLOAD</p></a> <br> <br>
 
 Usage/Install
 -----
