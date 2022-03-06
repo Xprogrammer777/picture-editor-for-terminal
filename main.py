@@ -43,7 +43,7 @@ def help():
 #upscale function start
 def upscale():
     #asking multiple infos
-    pyfiglet.format("upscale")
+    pyfiglet.figlet_format("upscale")
     sr = dnn_superres.DnnSuperResImpl_create()
     print("image upscalling process")
     path = str(input("put the path of the picture : ")) 
@@ -77,7 +77,7 @@ def upscale():
         print("process started")
         print("time estimation : ", estimation, "s")
         output = sr.upsample(image)
-        cv2.imwrite(picture_name_output, result)
+        cv2.imwrite(picture_name_output, output)
         see = str(input("do you want to see the result y/n"))
         
         #If the user want to see the picture
@@ -100,7 +100,7 @@ def upscale():
         print("process started")
         print("time estimation : ", estimation)
         output = sr.upsample(image)
-        cv2.imwrite(picture_name_output, result)
+        cv2.imwrite(picture_name_output, output)
         see = str(input("do you want to see the result y/n"))
 
         if see == "y":
@@ -138,17 +138,17 @@ def upscale():
 """
 
 def bg():
-    pyfiglet.format("Black white switcher")
+    pyfiglet.figlet_format("Black white switcher")
     path = str(input("set the path of the picture"))
     picture_name_output = str(input("set the output path of your picture : "))
     Image.open(path)
-    imgGray = color.rgb2gray(path)
-    Image.save(picture_name_output)
+    imgGray = Image.convert('L')
+    imgGray.save(picture_name_output)
 
 
 def reize():
 
-    pyfiglet.format("reize")
+    pyfiglet.figlet_format("reize")
 
     path = str(input("set the path of the img you want to reize : "))
     Image.open(path)
@@ -170,6 +170,7 @@ def reize():
 
 
 def text():
+    pyfiglet.figlet_format("text")
     width, heigh = Image.size
     center = heigh//2, width//2
     bottom = heigh//2, width//4
@@ -230,7 +231,7 @@ def text():
     #TODO: Maybe I should see if we can import stuff to do this because it will be pretty hard
 
 def tivc():
-    pyfiglet.format("Watch pics in terminal")
+    pyfiglet.figlet_format("Watch pics in terminal")
     path = str(input("Set the picture path : "))
     print("[*] openning...")
     time.sleep(1)
