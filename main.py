@@ -8,19 +8,16 @@ from cv2 import dnn_superres
 from PIL import Image, ImageFont, ImageDraw 
 import pyperclip
 
-
-#simple joke when the programm start
 time.sleep(1)
 print("=)")
 time.sleep(1)
 os.system("clear")
 
-#get the hostname will be used as username
 hostname = socket.gethostname()
 #banner
 banner = pyfiglet.figlet_format("PICTURE EDITOR")
 
-#print the "welcome page" start
+#welcome page start
 print(banner)
 print("""
  ___________
@@ -38,15 +35,16 @@ def help():
      bg: switch in black/white
      reize: reize picture
      text : add text on your picture
+     terminview : Watch a picture in your terminal using the C++ code by stefanhaustein from Github (https://github.com/stefanhaustein/TerminalImageViewer) 
      x : comming soon
     """)
 
 
 #upscale function start
 def upscale():
+    #asking multiple infos
     pyfiglet.format("upscale")
     sr = dnn_superres.DnnSuperResImpl_create()
-    #Asking user for some basics infos : path of the picture, output path, upscale factor 
     print("image upscalling process")
     path = str(input("put the path of the picture : ")) 
     image = cv2.imread(path)  
@@ -231,6 +229,13 @@ def text():
 
     #TODO: Maybe I should see if we can import stuff to do this because it will be pretty hard
 
+def tivc():
+    pyfiglet.format("Watch pics in terminal")
+    path = str(input("Set the picture path : "))
+    print("[*] openning...")
+    time.sleep(1)
+    os.system("tiv", path)
+
 while True:
     cmd = input(hostname+"@image_editor -> ").lower()
 
@@ -257,13 +262,13 @@ while True:
 
     elif "text" in cmd:
         text()
+    elif "terminview" in cmd:
+        tivc()
     elif cmd == "" or cmd == " ":
         print("please, type something.")
     else:
         print("wrong input")
-        time.sleep(1)
         os.system("clear")
-        time.sleep(1)
         print(banner)
 
         #REPORT ANY ISSUE ON GITHUB
