@@ -286,7 +286,9 @@ while True:
         #basic command that user can input end
     else:
         print("wrong input")
+        time.sleep(2)
         os.system("clear")
+        time.sleep(1)
         print(banner)
 
         #REPORT ANY ISSUE ON GITHUB
