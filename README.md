@@ -1,7 +1,7 @@
 # picture-editor-for-terminal
 ![version](https://img.shields.io/badge/Version-1.0.0-green)
 
-Edit your picture in your linux terminal with this AMAZING tool.
+Edit your picture in your linux terminal with this AMAZING tool. IMPORTANT NOTE : PROGRAMM HAVE ACTUALLY MANY ISSUE WE ARE FIXING IT.
 
 <div align="center" class="stuff"><img src="https://static.thenounproject.com/png/212328-200.png" width="177" align="center"/> </div>
 <strong><div class="stuff" align="center">Linux picture editor (non-gui)</div> </strong>
