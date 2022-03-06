@@ -12,6 +12,7 @@ time.sleep(1)
 print("=)")
 time.sleep(1)
 os.system("clear")
+time.sleep(1)
 
 hostname = socket.gethostname()
 #banner
@@ -35,7 +36,7 @@ def help():
      bg: switch in black/white
      reize: reize picture
      text : add text on your picture
-     terminview : Watch a picture in your terminal using the C++ code by stefanhaustein from Github (https://github.com/stefanhaustein/TerminalImageViewer) 
+     terminview : Watch a picture in your terminal using the C++ code by stefanhaustein from Github 
      x : comming soon
     """)
 
@@ -43,10 +44,9 @@ def help():
 #upscale function start
 def upscale():
     #asking multiple infos
-    pyfiglet.figlet_format("upscale")
+    pyfiglet.figlet_format("Upscale")
     sr = dnn_superres.DnnSuperResImpl_create()
-    print("image upscalling process")
-    path = str(input("put the path of the picture : ")) 
+    path = str(input("[*] Set the path of the picture (input) : ")) 
     image = cv2.imread(path)  
     Image.open(path)
     width, height = Image.size #not usefull, maybe for other things but not in upscale function
@@ -58,52 +58,57 @@ def upscale():
         big = False
 
     if big:
-        print("you picture already have a good resolution, it will take some time to upscale")
+        print("[!] Your picture already have a good resolution, it will take some time to upscale...")
         estimation = 60 #int because we will be able to change the value
     else:
-        print("Ineed, we need to upscale your picture, it's very small")
+        print("[*] Ineed, your picture is small it will take 30s to upscale.")
         estimation = 30 #estimation is about time
     #time estimation code end
 
     modelressource = "/model/" #not usefull, inistialise var
-    picture_name_output = str(input("Set the path/name of the output picture"))
-    upscalling_ = int(input("how much you want to upscale caution don't enter crazy number or your GPU will die (2-8)"))
+    picture_name_output = str(input("[*] Set the path/name of the output picture"))
+    time.sleep(1)
+    upscalling_ = int(input("[*] How much you want to upscale caution don't enter crazy number or your GPU will die (2-8)"))
     #use x2 algo if higher use algo 4 if higher retake the img re-use it upscale etc....
 
     if upscalling_ == 2: #if upscalling = 2 so use the x2 algorithm
         modelressource == "/ressources/x2.pb"
         sr.readModel(modelressource)
         sr.setModel("edsr", 2)
-        print("process started")
-        print("time estimation : ", estimation, "s")
+        time.sleep(1)
+        print("[*] Process started")
+        print("[*] Time estimation : ", estimation, "s")
         output = sr.upsample(image)
+        print("[*] Process succesfully finished!")
         cv2.imwrite(picture_name_output, output)
-        see = str(input("do you want to see the result y/n"))
+        see = str(input("[*] Do you want to see the result y/n"))
         
         #If the user want to see the picture
         if see == "y":
+            print("[*] Openning the picture....")
             Image.show(picture_name_output)
 
         elif see == "n":
-            print("OK")
+            print("[*] OK")
             os.system("clear")
             print(banner)
 
         else:
-            print("wrong input, quitting")
+            print("[!] Wrong input, quitting")
             quit()
     #if upscalling factor = 4 use x4 upscalling algorithm
     elif upscalling_ == 4:
         modelressource == "/model/2x.rb" # will change later
         sr.readModel(modelressource)
         sr.setModel("edsr", 4)
-        print("process started")
-        print("time estimation : ", estimation)
+        print("[*] Process started")
+        print("[*] Time estimation : ", estimation)
         output = sr.upsample(image)
         cv2.imwrite(picture_name_output, output)
-        see = str(input("do you want to see the result y/n"))
+        see = str(input("[*] Do you want to see the result y/n"))
 
         if see == "y":
+            print("[*] Openning the picture....")
             Image.show(picture_name_output)
 
         elif see == "n":
@@ -112,11 +117,11 @@ def upscale():
             print(banner)
         
         else:
-            print("wrong input, quitting")
+            print("[!] Wrong input, quitting")
             quit()
     #(Little hard) : if it's > 4 we search for a multiplier of this value (by 2) and finally discrease picture quality if its not a even number
     elif upscalling_ > 4:
-        print("[!] actually coding this pretty hard part check for next update")
+        print("[!] actually coding this pretty hard part check for next update =)")
         """
         os.system("mkdir 'temp'")
         os.system("cp image /temp/")
@@ -139,28 +144,29 @@ def upscale():
 
 def bg():
     pyfiglet.figlet_format("Black white switcher")
-    path = str(input("set the path of the picture"))
-    picture_name_output = str(input("set the output path of your picture : "))
+    path = str(input("[*] Set the path of the picture"))
+    picture_name_output = str(input("[*] set the output path of your picture : "))
     Image.open(path)
     imgGray = Image.convert('L')
     imgGray.save(picture_name_output)
+    print("[*] Picture saved in your output path (too tired to code user asking if he want to see the picture today)")
 
 
 def reize():
 
     pyfiglet.figlet_format("reize")
 
-    path = str(input("set the path of the img you want to reize : "))
+    path = str(input("[*] Set the path of the img you want to reize : "))
     Image.open(path)
-    print("reading your picture")
-    output_path = str(input("set the output path with the picture name e.g : home/username/Desktop/life.png"))
+    print("[*] Reading your picture")
+    output_path = str(input("[*] Set the output path with the picture name e.g : home/username/Desktop/life.png"))
     width, heigh = Image.size
-    x_reize = str(input("set the x pixels you want to reize :"))
+    x_reize = str(input("[*] set the x pixels you want to reize :"))
     print("ok")
-    y_reize = str(input("set the y pixel you want to reize"))
+    y_reize = str(input("[*] set the y pixel you want to reize"))
     Image.resize((x_reize, y_reize))
     path.save(output_path)
-    see = str(input("do you want to see the picture?"))
+    see = str(input("[*] do you want to see the picture?"))
 
     if see == "y" or see =="Y":
         Image.show(output_path)
@@ -282,6 +288,10 @@ while True:
         os.system(cmd)
     elif "mv" in cmd:
         os.system(cmd)
+    elif cmd == "whoami":
+        os.system(whoami)
+    elif "sudo" in cmd:
+        os.system(cmd)
 
         #basic command that user can input end
     else:
@@ -292,3 +302,4 @@ while True:
         print(banner)
 
         #REPORT ANY ISSUE ON GITHUB
+        #Thank for using!!
