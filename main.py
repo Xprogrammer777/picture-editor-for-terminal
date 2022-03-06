@@ -246,24 +246,24 @@ while True:
     elif "clear" in cmd:
         os.system("clear")
 
-    elif "upscale" in cmd:
+    elif cmd == "upscale":
         upscale()
 
-    elif "bg" in cmd:
+    elif cmd == "bg":
         bg() #call the function in the other file
 
-    elif "exit" in cmd:
+    elif cmd == "exit":
         quit()
     elif "x" in cmd:
         print("Add requests on Github...")
         time.sleep(1)
         print("") 
-    elif "reize" in cmd:
+    elif cmd == "reize":
         reize()
 
-    elif "text" in cmd:
+    elif cmd == "text":
         text()
-    elif "terminview" in cmd:
+    elif cmd == "terminview":
         tivc()
     elif cmd == "" or cmd == " ":
         print("please, type something.")
