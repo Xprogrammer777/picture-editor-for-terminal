@@ -266,6 +266,23 @@ while True:
         tivc()
     elif cmd == "" or cmd == " ":
         print("please, type something.")
+
+        #basic command that user can input start
+
+    elif "ls" in cmd:
+        os.system(cmd)
+    elif "cd" in cmd:
+        os.system(cmd)
+    elif "rm" in cmd:
+        os.system(cmd)
+    elif cmd == "banner":
+        print(banner)
+    elif "cp" in cmd:
+        os.system(cmd)
+    elif "mv" in cmd:
+        os.system(cmd)
+
+        #basic command that user can input end
     else:
         print("wrong input")
         os.system("clear")
