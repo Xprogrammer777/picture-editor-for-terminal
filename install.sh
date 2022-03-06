@@ -5,34 +5,33 @@ NC='\033[0m'
 
 printf "${RED}LINUX INSTALL SCRIPT${NC}\n"
 
-printf "[*] installing requirements"
+printf "[*] installing requirements\n"
 
 cd $HOME
-sudo su
 apt-get update
-apt-get upgrade
+apt-get upgrade --fix-missing
 apt-get install git
 apt-get install python3
 apt-get install pip
 pip install --upgrade pip
 pip install -r requirements.txt
 chmod +x main.py
-printf "[*] installing terminal picture viewer"
+printf "[*] installing terminal picture viewer\n"
 git clone https://github.com/stefanhaustein/TerminalImageViewer
 sudo apt install imagemagick || yum install ImageMagick
 cd TerminalImageViewer/src/main/cpp
 make
 make intall
-cd /
+cd $HOME
 
 sleep 2
 
 printf "${RED}[*] Installation completed (or requirements already satisfied)${NC}\n"
-echo 'Do you want to run the program? y/n'
+echo 'Do you want to run the program? y/n\n'
 read launch
 if [ $launch == "y" ]
 then
-echo '[*] Running...'
+echo '[*] Running...\n'
 python3 main.py
 elif [ $launch ==  "n" ]
 then
