@@ -289,7 +289,7 @@ while True:
     elif "mv" in cmd:
         os.system(cmd)
     elif cmd == "whoami":
-        os.system(whoami)
+        os.system(cmd)
     elif "sudo" in cmd:
         os.system(cmd)
 
