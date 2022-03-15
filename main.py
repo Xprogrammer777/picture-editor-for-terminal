@@ -4,9 +4,11 @@ import sys
 import socket
 import pyfiglet
 import cv2
-from cv2 import dnn_superres
-from PIL import Image, ImageFont, ImageDraw 
+import keyboard
 import pyperclip
+from cv2 import dnn_superres
+from PIL import Image, ImageFont, ImageDraw, ImageOps, ImageEnhance
+
 
 time.sleep(1)
 print("=)")
@@ -31,19 +33,31 @@ print("Welcome to linux picture editor ", hostname, " type 'help' for info")
 #print the welcome page end
 
 def help():
+    
     print("""
-     upscale: increase picture quality
-     bg: switch in black/white
-     reize: reize picture
-     text : add text on your picture
+    
+    With this python text based tool you will be able to edit your picture only in your terminal
+    Here is some commands to get started:
+    
+     upscale: Increase picture quality
+     bg: Switch in black/white
+     reize: Reize picture
+     text : Add text on your picture
      terminview : Watch a picture in your terminal using the C++ code by stefanhaustein from Github 
-     x : comming soon
+     constrast : Increase, discrease contrast
+     saturation : Increase, discrease saturation
+     rotate : Rotate the picture 
+     compress : Reduce Quality or do some pixel art
+     x : comming soon...
+     
+     Note : You can also still using basic linux commands like "ls" "cp" "mv"...
     """)
-
 
 #upscale function start
 def upscale():
+
     #asking multiple infos
+
     pyfiglet.figlet_format("Upscale")
     sr = dnn_superres.DnnSuperResImpl_create()
     path = str(input("[*] Set the path of the picture (input) : ")) 
@@ -71,7 +85,8 @@ def upscale():
     upscalling_ = int(input("[*] How much you want to upscale caution don't enter crazy number or your GPU will die (2-8)"))
     #use x2 algo if higher use algo 4 if higher retake the img re-use it upscale etc....
 
-    if upscalling_ == 2: #if upscalling = 2 so use the x2 algorithm
+    if upscalling_ == 2: # If upscalling = 2 so use the x2 algorithm
+
         modelressource == "/ressources/x2.pb"
         sr.readModel(modelressource)
         sr.setModel("edsr", 2)
@@ -85,19 +100,23 @@ def upscale():
         
         #If the user want to see the picture
         if see == "y":
+
             print("[*] Openning the picture....")
             Image.show(picture_name_output)
 
         elif see == "n":
+
             print("[*] OK")
             os.system("clear")
             print(banner)
 
         else:
+
             print("[!] Wrong input, quitting")
             quit()
     #if upscalling factor = 4 use x4 upscalling algorithm
     elif upscalling_ == 4:
+
         modelressource == "/model/2x.rb" # will change later
         sr.readModel(modelressource)
         sr.setModel("edsr", 4)
@@ -108,19 +127,23 @@ def upscale():
         see = str(input("[*] Do you want to see the result y/n"))
 
         if see == "y":
+
             print("[*] Openning the picture....")
             Image.show(picture_name_output)
 
         elif see == "n":
+
             print("OK")
             os.system("clear")
             print(banner)
         
         else:
+
             print("[!] Wrong input, quitting")
             quit()
     #(Little hard) : if it's > 4 we search for a multiplier of this value (by 2) and finally discrease picture quality if its not a even number
     elif upscalling_ > 4:
+
         print("[!] actually coding this pretty hard part check for next update =)")
         """
         os.system("mkdir 'temp'")
@@ -135,21 +158,30 @@ def upscale():
             output = sr.upsample(image)
             image = picture_name_output
             cv2.imwrite(picture_name_output, result) #maybe result will be output will see later
-
             #break
-
     
 #upscale function end
 """
 
 def bg():
+
     pyfiglet.figlet_format("Black white switcher")
     path = str(input("[*] Set the path of the picture"))
     picture_name_output = str(input("[*] set the output path of your picture : "))
     Image.open(path)
     imgGray = Image.convert('L')
     imgGray.save(picture_name_output)
+
     print("[*] Picture saved in your output path (too tired to code user asking if he want to see the picture today)")
+    see = str(input("do you want to see the picture? y/n"))
+    if see == "y":
+        print("Openning the picture")
+        Image.open(picture_name_output)
+    elif see == "n":
+        print("ok, quitting")
+        quit()
+    else:
+        print("Wrong input, picture saved in your path, ", picture_name_output)
 
 
 def reize():
@@ -169,6 +201,7 @@ def reize():
     see = str(input("[*] do you want to see the picture?"))
 
     if see == "y" or see =="Y":
+
         Image.show(output_path)
         os.system("clear")
         time.sleep(1)
@@ -176,74 +209,207 @@ def reize():
 
 
 def text():
-    pyfiglet.figlet_format("text")
+
+    pyfiglet.figlet_format("Text editor")
     width, heigh = Image.size
     center = heigh//2, width//2
     bottom = heigh//2, width//4
+    top = width//4, heigh//2 #4 or 3 will see later
+    left = width//2, heigh//4
+    right = heigh//4, width//2
     # Set differents position possible to put the text
 
-    pyfiglet.format("text editor")
-    print("Note: Since it's non gui we will ask you many question to place the text")
+    print("Note: Since it's 'non GUI' we will ask you many questions to place the text, put the color etc...")
 
     path = str(input("Set the path of your picture : "))
-    Image.open(path)
-    text = str(input("Set the text you want : "))
-    print("""set the front :
+    img = Image.open(path)
+    text = str(input("[*] Set the text you want : "))
+    print("[*]OK, ", text, " wil be added on the picture.")
+    print("""Set the front :
             1: Arial
             2: Impact
             4: Algerian
             5: Comic sans-serif
     """)
 
-    font = int(input("font (1-6) : "))
-    size = int(input("set the size of your text (50-300)"))
+    font = int(input("[*] Set the font (1-6) : "))
+    size = int(input("[*] Set the size of your text (50-300)"))
 
     if font == 1:
         font = ImageFont.truetype('playfair/playfair-font.ttf', size)
     elif font == 2:
-        font = ImageFont.truetype('ressources/ttf/x.ttf')
+        font = ImageFont.truetype('ressources/ttf/x.ttf', size)
     elif font == 3:
-        font = ImageFont.truetype('ressources/ttf/x.ttf')
+        font = ImageFont.truetype('ressources/ttf/x.ttf', size)
     elif font == 4:
-        font = ImageFont.truetype('ressources/ttf/x.ttf')
+        font = ImageFont.truetype('ressources/ttf/x.ttf', size)
     elif font == 4:
-        font = ImageFont.truetype('ressources/ttf/x.ttf')
+        font = ImageFont.truetype('ressources/ttf/x.ttf', size)
     else :
-        print("wrong input, quitting")
+        print("[!] Wrong input, please reset your choices")
         time.sleep(2)
-        quit()
+        text()
     
-    position = str(input("Set the position of your picture (bottom, top, center) : "))
+    position = str(input("Set the position of your picture (bottom, top, center, left, right) : ")).lower()
     r, g, b = int(input("Set rgb (enter 3 value")).spilt()
-    output_path = str(input("Set the output path of the picture"))
+
+    output_path = "/output/"
+    output_path = str(input("Set the output path of the picture (default : /output): "))
+
     time.sleep(1)
+
     print("[*] Processing... \n")
-    temp_edit = ImageDraw.Draw(path)
+    temp_edit = ImageDraw.Draw(img)
     print("[*] Putting text...")
-    temp_edit.text((position), text, (r, g, b), font=font)
+    temp_edit.text((position), text, (r, g, b), font=font) #Yeah font=font maybe I will put as var name font_
     temp_edit.save(output_path)
+
     print("[*] Done.")
-    see = str(input("do you want to see the picture? y/n"))
+    see = str(input("[*] Do you want to see the picture? y/n"))
 
     if see == "y":
+
+        print("[*] Openning the picture...")
+        time.sleep(2)
         Image.show(output_path)
+    
     elif see == "n":
-        print("ok\n")
+
+        print("[*] OK \n")
         print("[!] Quitting")
         quit()
     else:
-        print("wrong input case sensitive y or n")
+
+        print("[!] Wrong input case sensitive 'y' or 'n'")
+        print("[!] Plwease re-enter the value")
+        time.sleep(2)
+        text()
 
     #TODO: Maybe I should see if we can import stuff to do this because it will be pretty hard
 
 def tivc():
+
     pyfiglet.figlet_format("Watch pics in terminal")
-    path = str(input("Set the picture path : "))
-    print("[*] openning...")
+    path = str(input("[*] Set the picture path : "))
+    print("[*] Openning the picture...")
     time.sleep(1)
-    os.system("tiv", path)
+    os.system("tiv ", path)
+
+def rotate():
+
+    pyfiglet.figlet_format("Picture rotation/Flip")
+    fr = str(input("Flip or rotate? (f/r)"))
+
+    if fr == "f":
+
+        #TODO the process
+
+        print("Actually working of this part, will be fixed later")
+        path = str(input("set the path of the picture you want to flip: "))
+        img = Image.open(path) #!IMPORTANT! I fixed an error when we do the process we take the function on the picture/picture path
+        output_path = str(input("set the ouput path of the picture (with name): "))
+        vh = str(input("do you want to flip horizontally 'h' or vertically 'v'? : "))
+
+        if vh == "h":
+
+            flipped = ImageOps.mirror(img)
+            print("[*] Saving the picture....")
+            flipped.save(output_path)
+        elif vh == "v":
+
+            flipped = ImageOps.flip(img)
+            print("[*] Saving your picture....")
+            flipped.save(output_path)
+        else:
+
+            print("[!] Wrong input 'v' or 'h'")
+            time.sleep(1) #IDK if I put rorate or not at the second one will be fixed later
+            rotate() #return to the beginning of the "rotate" function
+
+    elif fr == "r":
+    
+        #TODO the process
+        path = str(input("set the path of the picture you want to rotate: "))
+        img = Image.open(path)
+        output_path = str(input("set the ouput path (with name) of your picture"))
+        angle = int(input("set the angle of rotation: "))
+        rotated_picture = img.rotate(angle)
+        rotated_picture.save(output_path)
+        print("Picture saved in ", output_path)
+    
+    else:
+
+        print("Wrong input 'f' or 'r'")
+        time.sleep(1)
+        os.system("clear")
+        time.sleep(1)
+        rotate()
+
+def contrast():
+
+    pyfiglet.figlet_format("Contrast enhancer")
+    path = str(input("[*] Set the path of the picture : "))
+    output_path = str(input("[*] Set the output path of the picture: "))
+    img = Image.open(path)
+    factor = int(input("Set the contrast factor 0-2 : "))
+    enhancer = ImageEnhance.Contrast(img)
+    contrasted = enhancer.enhance(factor)
+
+    print("[*] Process finished, saving your picture...")
+    img.save(output_path)
+
+    see = str(input("[*] Do you want to see the result y/n"))
+        
+        #If the user want to see the picture
+    if see == "y":
+        print("[*] Openning the picture....")
+        Image.show(output_path)
+
+    elif see == "n":
+        print("[*] OK")
+        os.system("clear")
+        print(banner)
+
+    else:
+        print("[!] Wrong input, quitting")
+        quit()
+    
+def compress():
+
+    pyfiglet.figlet_format("Compress picture")
+    path = str(input("[*] Set the path of the picture : "))
+    output_path = str(input("[*] Set the output path of the picture: "))
+    img = Image.open(path)
+    factor = str(input("set the 'compressing factor' 0-0.99"))
+
+    if "," in factor:
+
+        print("Please use only the point (.) for decimal number")
+        os.system("clear")
+        compress()
+
+    else:
+        int("factor") #convert str to integer
+        img.save(output_path, quality=95*factor) #Well do math if you don't understand
+
+        see = str(input("[*] Do you want to see the result y/n"))
+
+        if see == "y":
+            print("[*] Openning the picture....")
+            Image.show(output_path)
+
+        elif see == "n":
+            print("[*] OK")
+            os.system("clear")
+            print(banner)
+
+        else:
+            print("[!] Wrong input, quitting")
+            quit()
+        
 
 while True:
+
     cmd = input(hostname+"@image_editor -> ").lower()
 
     if "help" in cmd:
@@ -271,6 +437,12 @@ while True:
         text()
     elif cmd == "terminview":
         tivc()
+    elif cmd == "rotate":
+        rotate()
+
+    elif cmd == "contrast":
+        contrast()
+
     elif cmd == "" or cmd == " ":
         print("please, type something.")
 
@@ -289,9 +461,23 @@ while True:
     elif "mv" in cmd:
         os.system(cmd)
     elif cmd == "whoami":
-        os.system(cmd)
+        os.system("whoami")
     elif "sudo" in cmd:
         os.system(cmd)
+    elif "alias" in cmd:
+        os.system(cmd)
+    elif "mkdir" in cmd:
+        os.system(cmd)
+    elif "mkfile" in cmd:
+        os.system(cmd)
+    elif "nano" in cmd:
+        os.system(cmd)
+    elif cmd == "dir":
+        os.system("dir")
+    elif cmd == "nslookup":
+        os.system("cmd")
+    elif "git" in cmd:
+        os.system("cmd")
 
         #basic command that user can input end
     else:
