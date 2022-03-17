@@ -389,7 +389,7 @@ def compress():
         compress()
 
     else:
-        int("factor") #convert str to integer
+        float("factor") # Convert
         img.save(output_path, quality=95*factor) #Well do math if you don't understand
 
         see = str(input("[*] Do you want to see the result y/n"))
