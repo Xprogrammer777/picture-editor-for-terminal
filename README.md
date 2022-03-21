@@ -44,7 +44,7 @@ Notes
 The program is still under development, the program have a lot of error, they will be corrected in the future.
 
 
-Disclaimer 
+Other notes
 ---------------------
 
 <center> ENJOY IT </center>
