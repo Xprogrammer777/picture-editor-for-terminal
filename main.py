@@ -351,7 +351,7 @@ def contrast():
     path = str(input("[*] Set the path of the picture : "))
     output_path = str(input("[*] Set the output path of the picture: "))
     img = Image.open(path)
-    factor = int(input("Set the contrast factor 0-2 : "))
+    factor = float(input("Set the contrast factor 0-2 : "))
     enhancer = ImageEnhance.Contrast(img)
     contrasted = enhancer.enhance(factor)
 
