@@ -442,6 +442,9 @@ while True:
 
     elif cmd == "contrast":
         contrast()
+      
+    elif cmd == "compress":
+        compress()
 
     elif cmd == "" or cmd == " ":
         print("please, type something.")
