@@ -27,6 +27,7 @@ cd TerminalImageViewer/src/main/cpp
 make
 make intall
 printf "[*] Requirements installed..."
+cd ..
 cd picture-editor-for-terminal
 
 sleep 2
